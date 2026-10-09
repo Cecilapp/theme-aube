@@ -1,0 +1,46 @@
+{%- set aube = site.aube|default({}) -%}
+<header class="site-header contains-inline border-bottom {{ aube.navbar.fixed|default(true) ? 'sticky-top' }}">
+  <nav class="navbar lg:navbar-expand" aria-label="{% trans %}Main navigation{% endtrans %}">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-3 fw-bold" href="{{ url(site.home) }}">
+        {%- set logo = asset(aube.logo|default('images/logo.svg'), {ignore_missing: true}) ~%}
+        {%- if aube.logo|default('images/logo.svg') is not empty and not logo.missing ~%}
+        <img src="{{ url(logo) }}" alt="" width="32" height="32">
+        {%- endif ~%}
+        <span>{{ site.title }}</span>
+      </a>
+      <button class="btn-icon navbar-toggler" type="button" data-bs-toggle="drawer" data-bs-target="#navbar-drawer" aria-controls="navbar-drawer" aria-label="{% trans %}Toggle navigation{% endtrans %}">
+        {{ include('partials/icon.html.twig', {name: 'list', class: 'fs-xl'}, with_context = false) }}
+      </button>
+      <dialog class="drawer drawer-end" id="navbar-drawer" aria-labelledby="navbar-drawer-label">
+        <div class="drawer-header">
+          <h5 class="drawer-title" id="navbar-drawer-label">{{ site.title }}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="drawer" aria-label="{% trans %}Close{% endtrans %}"></button>
+        </div>
+        <div class="drawer-body lg:align-items-center">
+          <ul class="navbar-nav me-auto lg:ms-7">
+            {%- for entry in site.menus.main|default([])|sort_by_weight ~%}
+            {%- set entry_url = url(entry.url) ~%}
+            {%- set active = entry_url == url(page) or (page.section and page.section == entry.id) or (page.section and entry_url == url(page.section)) ~%}
+            <li class="nav-item">
+              <a class="nav-link{{ active ? ' active' }}" href="{{ entry_url }}"{% if active %} aria-current="page"{% endif %}>{{ entry.name }}</a>
+            </li>
+            {%- endfor ~%}
+          </ul>
+          <ul class="navbar-nav flex-row align-items-center gap-1">
+            {%- for link in aube.social|default([])|filter(l => l.navbar|default(false)) ~%}
+            <li class="nav-item">
+              <a class="nav-link px-3" href="{{ link.url }}" title="{{ link.name }}" rel="noopener">{{ include('partials/icon.html.twig', {name: link.icon|default(link.name|lower)}, with_context = false) }}<span class="visually-hidden">{{ link.name }}</span></a>
+            </li>
+            {%- endfor ~%}
+            {%- if aube.color_mode.enabled|default(true) ~%}
+            <li class="nav-item">
+              {{- include('partials/color-mode.html.twig', {}, with_context = false) ~}}
+            </li>
+            {%- endif ~%}
+          </ul>
+        </div>
+      </dialog>
+    </div>
+  </nav>
+</header>

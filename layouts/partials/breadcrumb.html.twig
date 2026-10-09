@@ -1,0 +1,14 @@
+{#- breadcrumb navigation (Bootstrap) ~#}
+{%- if page.type != 'homepage' ~%}
+<nav aria-label="{% trans %}Breadcrumb{% endtrans %}">
+  <ol class="breadcrumb mb-5">
+    <li class="breadcrumb-item"><a class="breadcrumb-link" href="{{ url(site.home) }}">{% trans %}Home{% endtrans %}</a></li>
+    {%- for section in page.ancestors|default([])|reverse ~%}
+    <li class="breadcrumb-divider"></li>
+    <li class="breadcrumb-item"><a class="breadcrumb-link" href="{{ url(section) }}">{{ section.title }}</a></li>
+    {%- endfor ~%}
+    <li class="breadcrumb-divider"></li>
+    <li class="breadcrumb-item"><a class="breadcrumb-link active" href="{{ url(page) }}" aria-current="page">{{ page.title }}</a></li>
+  </ol>
+</nav>
+{%- endif ~%}

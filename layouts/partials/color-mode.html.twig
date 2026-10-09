@@ -1,0 +1,11 @@
+{#- light/dark/auto color mode switcher ~#}
+<button class="nav-link px-3 d-flex align-items-center" type="button" data-bs-toggle="menu" data-bs-placement="bottom-end" aria-expanded="false" title="{% trans %}Toggle theme{% endtrans %}">
+  <span class="color-mode-icon-light">{{ include('partials/icon.html.twig', {name: 'sun-fill'}, with_context = false) }}</span>
+  <span class="color-mode-icon-dark">{{ include('partials/icon.html.twig', {name: 'moon-stars-fill'}, with_context = false) }}</span>
+  <span class="visually-hidden">{% trans %}Toggle theme{% endtrans %}</span>
+</button>
+<div class="menu">
+  <button type="button" class="menu-item" data-bs-theme-value="light">{{ include('partials/icon.html.twig', {name: 'sun-fill'}, with_context = false) }} {% trans %}Light{% endtrans %}</button>
+  <button type="button" class="menu-item" data-bs-theme-value="dark">{{ include('partials/icon.html.twig', {name: 'moon-stars-fill'}, with_context = false) }} {% trans %}Dark{% endtrans %}</button>
+  <button type="button" class="menu-item" data-bs-theme-value="auto">{{ include('partials/icon.html.twig', {name: 'circle-half'}, with_context = false) }} {% trans %}Auto{% endtrans %}</button>
+</div>

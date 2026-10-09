@@ -1,0 +1,114 @@
+{%- set aube = site.aube|default({}) -%}
+{%- set color_mode = aube.color_mode.default|default('auto') -%}
+<!DOCTYPE html>
+<html lang="{{ site.language }}" data-bs-theme="{{ color_mode == 'dark' ? 'dark' : 'light' }}" data-default-theme="{{ color_mode }}">
+  <head>
+    {%- block head ~%}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <script>{% apply minify_js %}
+      (() => {
+        const mode = localStorage.getItem('theme') || document.documentElement.dataset.defaultTheme;
+        const dark = mode === 'dark' || (mode === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.setAttribute('data-bs-theme', dark ? 'dark' : 'light');
+      })();
+    {% endapply %}</script>
+    {%- block head_metatags ~%}
+    {{- include('partials/metatags.html.twig', {page, site}, with_context = false) ~}}
+    {%- endblock head_metatags ~%}
+    {%- endblock head ~%}
+    {%- block head_css ~%}
+    {%- set font = aube.font.family|default('Inter') ~%}
+    {%- if font is not empty ~%}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family={{ font|url_encode }}:wght@{{ aube.font.weights|default('400;600;700') }}&amp;display=swap">
+    {%- endif ~%}
+    {%- set bs_version = aube.bootstrap.version|default('6.0.0-alpha.1') ~%}
+    {{ html(asset('https://cdn.jsdelivr.net/npm/bootstrap@' ~ bs_version ~ '/dist/css/bootstrap.min.css', {filename: 'css/bootstrap.min.css', minify: false}), {}, {preload: true}) }}
+    {{ html(asset('css/aube.css')) }}
+    {#- theme colors: Bootstrap 6 color role tokens (base, fg, bg, border, etc.) derived from a single color ~#}
+    {%- set colors = {primary: aube.colors.primary|default('#d43900'), secondary: aube.colors.secondary|default('')}|filter(c => c is not empty) ~%}
+    <style>{% apply minify_css %}
+      :root, [data-bs-theme] {
+        {%- for role, c in colors %}
+        --bs-{{ role }}-base: {{ c }};
+        --bs-{{ role }}-bg: {{ c }};
+        --bs-{{ role }}-fg: light-dark(color-mix(in oklch, {{ c }} 90%, #000), color-mix(in oklch, {{ c }} 70%, #fff));
+        --bs-{{ role }}-fg-emphasis: light-dark(color-mix(in oklch, {{ c }} 60%, #000), color-mix(in oklch, {{ c }} 40%, #fff));
+        --bs-{{ role }}-bg-subtle: light-dark(color-mix(in oklch, {{ c }} 12%, #fff), color-mix(in oklch, {{ c }} 36%, #000));
+        --bs-{{ role }}-bg-muted: light-dark(color-mix(in oklch, {{ c }} 25%, #fff), color-mix(in oklch, {{ c }} 52%, #000));
+        --bs-{{ role }}-border: light-dark(color-mix(in oklch, {{ c }} 60%, #fff), color-mix(in oklch, {{ c }} 84%, #000));
+        --bs-{{ role }}-focus-ring: light-dark(color-mix(in oklch, {{ c }} 50%, var(--bs-bg-body)), color-mix(in oklch, {{ c }} 75%, var(--bs-bg-body)));
+        --bs-{{ role }}-contrast: #fff;
+        {%- endfor %}
+        {%- if font is not empty %}
+        --aube-font-family: "{{ font }}", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        {%- endif %}
+      }
+      {%- if config.pages.body.highlight|default(true) %}
+      {{ include('partials/highlight.css.twig') }}
+      {%- endif %}
+    {% endapply %}</style>
+    {%- endblock head_css ~%}
+    {{- include('partials/pwa.html.twig', {site}, with_context = false, ignore_missing = true) ~}}
+  </head>
+  <body class="{% block body_class %}{{ page.section ? 'section-' ~ page.section }}{% endblock %}">
+    <a class="visually-hidden-focusable position-absolute top-0 start-0 p-3 m-3 bg-body rounded-4" href="#main">{% trans %}Skip to main content{% endtrans %}</a>
+    {%- block header ~%}
+    {{- include('partials/navbar.html.twig') ~}}
+    {%- endblock header ~%}
+    <main id="main">
+      {%- block main ~%}
+      {%- set toc = aube.toc.enabled|default(true) and page.toc|default(true) ? page.body|toc : '' ~%}
+      {%- set has_toc = toc is not empty and toc|split('<li')|length > aube.toc.min|default(2) ~%}
+      <div class="container py-7 lg:py-12">
+        <div class="row g-12 justify-content-center">
+          <div class="{{ has_toc ? 'lg:col-9 xl:col-8' : 'lg:col-10 xl:col-8' }}">
+            {%- block breadcrumb ~%}
+            {%- if aube.breadcrumb|default(true) ~%}
+            {{- include('partials/breadcrumb.html.twig') ~}}
+            {%- endif ~%}
+            {%- endblock breadcrumb ~%}
+            {%- block content ~%}
+            <article>
+              {{- include('partials/page-header.html.twig') ~}}
+              {%- if has_toc ~%}
+              <details class="lg:d-none mb-7 border rounded-4 p-5">
+                <summary class="fw-semibold">{% trans %}On this page{% endtrans %}</summary>
+                <nav class="toc mt-3">{{ toc }}</nav>
+              </details>
+              {%- endif ~%}
+              <div class="content">
+                {{- page.content ~}}
+              </div>
+              {{- include('partials/terms-list.html.twig', {page, site, vocabulary: 'tags'}, with_context = false) ~}}
+            </article>
+            {%- endblock content ~%}
+          </div>
+          {%- if has_toc ~%}
+          <aside class="lg:col-3 d-none lg:d-block">
+            {{- include('partials/toc.html.twig', {toc}, with_context = false) ~}}
+          </aside>
+          {%- endif ~%}
+        </div>
+      </div>
+      {%- endblock main ~%}
+    </main>
+    {%- block footer ~%}
+    {{- include('partials/footer.html.twig') ~}}
+    {%- endblock footer ~%}
+    {%- block scripts ~%}
+    {%- if aube.copy_code|default(true) ~%}
+    <template id="copy-button-template">
+      <button type="button" class="btn-outline theme-secondary btn-sm btn-copy" title="{% trans %}Copy to clipboard{% endtrans %}" aria-label="{% trans %}Copy to clipboard{% endtrans %}">
+        <span class="icon-copy">{{ include('partials/icon.html.twig', {name: 'clipboard'}, with_context = false) }}</span><span class="icon-copied">{{ include('partials/icon.html.twig', {name: 'clipboard-check'}, with_context = false) }}</span>
+      </button>
+    </template>
+    {%- endif ~%}
+    {{ html(asset('https://cdn.jsdelivr.net/npm/bootstrap@' ~ aube.bootstrap.version|default('6.0.0-alpha.1') ~ '/dist/js/bootstrap.bundle.min.js', {filename: 'js/bootstrap.bundle.min.js', minify: false}), {type: 'module'}) }}
+    {{ html(asset('js/aube.js'), {defer: ''}) }}
+    {%- endblock scripts ~%}
+  </body>
+</html>

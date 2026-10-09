@@ -1,0 +1,21 @@
+{#- params: prev, next (pages) ~#}
+{%- if prev|default or next|default ~%}
+<nav class="row g-5 mt-12" aria-label="{% trans %}Page navigation{% endtrans %}">
+  <div class="sm:col-6">
+    {%- if prev|default ~%}
+    <a class="page-nav-link d-block border rounded-5 p-5 h-100" href="{{ url(prev) }}">
+      <span class="d-block small fg-secondary">{{ include('partials/icon.html.twig', {name: 'arrow-left', class: 'me-1'}, with_context = false) }}{% trans %}Previous{% endtrans %}</span>
+      <span class="fw-semibold">{{ prev.title }}</span>
+    </a>
+    {%- endif ~%}
+  </div>
+  <div class="sm:col-6 sm:text-end">
+    {%- if next|default ~%}
+    <a class="page-nav-link d-block border rounded-5 p-5 h-100" href="{{ url(next) }}">
+      <span class="d-block small fg-secondary">{% trans %}Next{% endtrans %}{{ include('partials/icon.html.twig', {name: 'arrow-right', class: 'ms-1'}, with_context = false) }}</span>
+      <span class="fw-semibold">{{ next.title }}</span>
+    </a>
+    {%- endif ~%}
+  </div>
+</nav>
+{%- endif ~%}

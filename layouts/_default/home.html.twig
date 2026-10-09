@@ -1,0 +1,83 @@
+{% extends ['page.html.twig', '_default/page.html.twig'] %}
+
+{%- block main ~%}
+      {%- set hero = page.hero|default({}) ~%}
+      <section class="hero">
+        <div class="container">
+          <div class="row align-items-center g-12">
+            <div class="{{ hero.image|default ? 'lg:col-7' : 'lg:col-9 mx-auto text-center' }}">
+              <h1 class="hero-title fs-5xl mb-5">{{ hero.title|default(site.title)|raw }}</h1>
+              <p class="fs-lg fw-light fg-secondary mb-7">{{ hero.text|default(site.description|default(site.baseline|default(''))) }}</p>
+              {%- if hero.buttons|default([]) is not empty ~%}
+              <div class="d-flex flex-wrap gap-3{{ not hero.image|default ? ' justify-content-center' }}">
+                {%- for button in hero.buttons ~%}
+                {%- set style = button.style|default(loop.first ? 'primary' : 'outline-secondary') ~%}
+                {#- style: "primary", "outline-secondary", "subtle-primary", etc. (Bootstrap 6 button variant + theme color) ~#}
+                {%- set parts = style|split('-', 2) ~%}
+                {%- set variant = parts|length == 2 and parts[0] in ['solid', 'outline', 'subtle', 'text'] ? parts[0] : 'solid' ~%}
+                {%- set theme = parts[0] == variant ? parts|last : style ~%}
+                <a class="btn-{{ variant }} theme-{{ theme }} btn-lg px-7" href="{{ url(button.url) }}">{{ button.text }}</a>
+                {%- endfor ~%}
+              </div>
+              {%- endif ~%}
+            </div>
+            {%- if hero.image|default ~%}
+            <div class="lg:col-5 text-center">
+              {{ asset(hero.image)|html({alt: hero.image_alt|default(''), class: 'img-fluid hero-image'}) }}
+            </div>
+            {%- endif ~%}
+          </div>
+        </div>
+      </section>
+      {%- set features = page.features|default({}) ~%}
+      {%- if features.items|default([]) is not empty ~%}
+      <section class="py-12">
+        <div class="container">
+          {%- if features.title|default ~%}
+          <h2 class="fw-bold text-center mb-12">{{ features.title }}</h2>
+          {%- endif ~%}
+          <div class="row g-7 row-cols-1 md:row-cols-2 lg:row-cols-{{ min(features.items|length, 4) }}">
+            {%- for feature in features.items ~%}
+            <div class="col">
+              {%- if feature.icon|default ~%}
+              <div class="feature-icon mb-5">{{ include('partials/icon.html.twig', {name: feature.icon}, with_context = false) }}</div>
+              {%- endif ~%}
+              <h3 class="h5 fw-semibold">{{ feature.title }}</h3>
+              <p class="fg-secondary mb-0">{{ feature.text }}</p>
+            </div>
+            {%- endfor ~%}
+          </div>
+        </div>
+      </section>
+      {%- endif ~%}
+      {%- if page.content ~%}
+      <section class="py-7">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="lg:col-10 xl:col-8 content">
+              {{- page.content ~}}
+            </div>
+          </div>
+        </div>
+      </section>
+      {%- endif ~%}
+      {%- set section = site.aube.home.section|default('blog') ~%}
+      {%- set posts = site.pages.showable|filter_by('section', section)|sort_by_date|slice(0, site.aube.home.limit|default(3)) ~%}
+      {%- if section and posts|length > 0 ~%}
+      <section class="py-12">
+        <div class="container">
+          <div class="d-flex justify-content-between align-items-end mb-7">
+            <h2 class="fw-bold mb-0">{{ site.aube.home.title|default('Latest posts')|trans }}</h2>
+            <a class="fw-semibold text-decoration-none" href="{{ url(section) }}">{% trans %}View all{% endtrans %}{{ include('partials/icon.html.twig', {name: 'arrow-right', class: 'ms-1'}, with_context = false) }}</a>
+          </div>
+          <div class="row g-7 row-cols-1 md:row-cols-2 lg:row-cols-3">
+            {%- for post in posts ~%}
+            <div class="col">
+              {{- include('partials/card.html.twig', {post, site}, with_context = false) ~}}
+            </div>
+            {%- endfor ~%}
+          </div>
+        </div>
+      </section>
+      {%- endif ~%}
+{%- endblock main ~%}

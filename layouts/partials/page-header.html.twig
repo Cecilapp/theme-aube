@@ -1,0 +1,21 @@
+{#- page title, description and metadata ~#}
+<header class="mb-7">
+  <h1 class="fs-3xl fw-bold">{{ page.title }}</h1>
+  {%- if page.description is defined and page.description is not empty ~%}
+  <p class="fs-lg fw-light fg-secondary">{{ page.description }}</p>
+  {%- endif ~%}
+  {%- if page.type == 'page' and page.date and page.section in site.aube.posts.sections|default(['blog']) ~%}
+  <p class="small fg-secondary d-flex flex-wrap gap-5 mb-0">
+    <span>{{ include('partials/icon.html.twig', {name: 'calendar3', class: 'me-1'}, with_context = false) }}<time datetime="{{ page.date|date('c') }}">{{ page.date|format_date('long') }}</time></span>
+    {%- if site.aube.readtime|default(true) ~%}
+    {%- set minutes = readtime(page.content) ~%}
+    <span>{{ include('partials/icon.html.twig', {name: 'clock', class: 'me-1'}, with_context = false) }}{% trans with {'%minutes%': minutes} %}%minutes% min read{% endtrans %}</span>
+    {%- endif ~%}
+  </p>
+  {%- endif ~%}
+</header>
+{%- if page.image is defined and page.image is not empty and page.type == 'page' ~%}
+<figure class="mb-7">
+  {{ asset(page.image)|html({alt: page.title, class: 'img-fluid rounded-5 w-100'}, {responsive: true}) }}
+</figure>
+{%- endif ~%}

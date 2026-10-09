@@ -1,0 +1,14 @@
+{% extends ['page.html.twig', '_default/page.html.twig'] %}
+
+{%- block main ~%}
+      <div class="container py-12 text-center">
+        <p class="fs-6xl fw-bold fg-primary mb-0">404</p>
+        {%- if page.content is not empty ~%}
+        <div class="content">{{ page.content }}</div>
+        {%- else ~%}
+        <h1 class="h3 mb-5">{% trans %}Page not found{% endtrans %}</h1>
+        <p class="fg-secondary">{% trans %}Looks like you've followed a broken link or entered a URL that doesn't exist on this site.{% endtrans %}</p>
+        {%- endif ~%}
+        <a class="btn-solid theme-primary mt-5" href="{{ url(site.home) }}">{% trans %}Back to home page{% endtrans %}</a>
+      </div>
+{%- endblock main ~%}

@@ -1,0 +1,29 @@
+{#- paginator (Bootstrap pagination) ~#}
+{%- if page.paginator and page.paginator.count|default(1) > 1 ~%}
+{%- set paginator = page.paginator ~%}
+{%- set links = paginator.links ~%}
+<nav class="mt-12" aria-label="{% trans %}Pagination{% endtrans %}">
+  <ul class="pagination justify-content-center">
+    <li class="page-item{{ links.prev is not defined ? ' disabled' }}">
+      {%- if links.prev is defined ~%}
+      <a class="page-link" href="{{ url(links.prev) }}">{% trans %}Previous{% endtrans %}</a>
+      {%- else ~%}
+      <span class="page-link">{% trans %}Previous{% endtrans %}</span>
+      {%- endif ~%}
+    </li>
+    {%- for i in 1..paginator.count ~%}
+    {%- set link = i == 1 ? links.first : links.path ~ '/' ~ i ~%}
+    <li class="page-item{{ i == paginator.current ? ' active' }}">
+      <a class="page-link" href="{{ url(link) }}"{% if i == paginator.current %} aria-current="page"{% endif %}>{{ i }}</a>
+    </li>
+    {%- endfor ~%}
+    <li class="page-item{{ links.next is not defined ? ' disabled' }}">
+      {%- if links.next is defined ~%}
+      <a class="page-link" href="{{ url(links.next) }}">{% trans %}Next{% endtrans %}</a>
+      {%- else ~%}
+      <span class="page-link">{% trans %}Next{% endtrans %}</span>
+      {%- endif ~%}
+    </li>
+  </ul>
+</nav>
+{%- endif ~%}

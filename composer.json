@@ -1,0 +1,23 @@
+{
+  "name": "cecil/theme-aube",
+  "type": "cecil-theme",
+  "description": "Cecil Aube theme, a Bootstrap 6 documentation and blog theme",
+  "keywords": ["Cecil", "theme", "aube", "bootstrap", "documentation", "blog"],
+  "license": "MIT",
+  "require": {
+    "cecil/theme-installer": "^1.4||^2.0"
+  },
+  "extra": {
+    "name": "aube"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "scripts": {
+    "demo:link": "php demo/link.php"
+  },
+  "config": {
+    "allow-plugins": {
+      "cecil/theme-installer": true
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{#- params: page, site; lists the pages of the current section, grouped by their "group" front matter variable ~#}
+{%- set section = page.type == 'section' ? page : site.page(page.section) -%}
+{%- set docs = section.pages|default([])|sort_by_weight -%}
+{%- set groups = [] -%}
+{%- for doc in docs -%}
+{%- if doc.group|default('') not in groups %}{% set groups = groups|merge([doc.group|default('')]) %}{% endif -%}
+{%- endfor -%}
+<nav class="docs-sidebar" aria-label="{{ section.title }}">
+  <a class="nav-link fw-semibold mb-3{{ page.id == section.id ? ' active' }}" href="{{ url(section) }}">{{ include('partials/icon.html.twig', {name: 'book', class: 'me-3'}, with_context = false) }}{{ section.title }}</a>
+  {%- for group in groups ~%}
+  {%- if group is not empty ~%}
+  <p class="sidebar-group">{{ group }}</p>
+  {%- endif ~%}
+  <ul class="nav flex-column">
+    {%- for doc in docs|filter(d => d.group|default('') == group) ~%}
+    <li class="nav-item">
+      <a class="nav-link{{ doc.id == page.id ? ' active' }}" href="{{ url(doc) }}"{% if doc.id == page.id %} aria-current="page"{% endif %}>{{ doc.title }}</a>
+    </li>
+    {%- endfor ~%}
+  </ul>
+  {%- endfor ~%}
+</nav>

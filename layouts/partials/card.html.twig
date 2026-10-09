@@ -1,0 +1,16 @@
+{#- param: post (page), site ~#}
+<article class="card card-hover h-100 shadow-sm">
+  {%- if post.image is defined and post.image is not empty ~%}
+  {{ asset(post.image)|html({alt: '', class: 'card-img-top', loading: 'lazy'}, {responsive: true}) }}
+  {%- endif ~%}
+  <div class="card-body">
+    {%- if post.date and post.type == 'page' ~%}
+    <p class="small fg-secondary"><time datetime="{{ post.date|date('c') }}">{{ post.date|format_date('medium') }}</time></p>
+    {%- endif ~%}
+    <h3 class="card-title h5"><a class="stretched-link fg-body text-decoration-none" href="{{ url(post) }}">{{ post.title }}</a></h3>
+    {%- set summary = post.description is defined and post.description is not empty ? post.description : post.content|excerpt_html|striptags|trim ~%}
+    {%- if summary|length > 160 %}{% set summary = summary|slice(0, 160)|trim ~ '…' %}{% endif ~%}
+    <p class="card-text fg-secondary">{{ summary }}</p>
+    <span class="mt-auto small fw-semibold fg-primary">{% trans %}Read more{% endtrans %}{{ include('partials/icon.html.twig', {name: 'arrow-right', class: 'ms-1'}, with_context = false) }}</span>
+  </div>
+</article>

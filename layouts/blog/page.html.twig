@@ -1,0 +1,6 @@
+{% extends ['page.html.twig', '_default/page.html.twig'] %}
+
+{%- block content ~%}
+            {{- parent() ~}}
+            {{- include('partials/prev-next.html.twig', {prev: page.prev|default(null), next: page.next|default(null)}, with_context = false) ~}}
+{%- endblock content ~%}

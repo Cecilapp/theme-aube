@@ -1,0 +1,47 @@
+# Cecil configuration required by the theme
+taxonomies:
+  tags: tag
+pages:
+  pagination:
+    max: 6
+    path: page
+  body:
+    images:
+      class: img-fluid rounded
+    toc: [h2, h3]
+static:
+  exclude:
+    - '*.scss'
+# Aube theme options
+aube:
+  logo: images/logo.svg        # logo path in assets/ (empty to hide)
+  font:
+    family: Inter              # Google Fonts family (empty to use the system font stack)
+    weights: '400;600;700'
+  colors:
+    primary: '#d43900'         # Bootstrap primary color
+    secondary: ''              # Bootstrap secondary color (empty to keep Bootstrap's neutral secondary)
+  color_mode:
+    enabled: true              # show the light/dark/auto toggle
+    default: auto              # auto, light or dark
+  navbar:
+    fixed: true                # sticky navbar
+  home:
+    section: blog              # section of the pages displayed on the home page
+    limit: 3
+    title: Latest posts
+  posts:
+    sections: [blog]           # sections whose pages display date and reading time
+  toc:
+    enabled: true              # table of contents on pages and docs
+    min: 2                     # minimum number of headings to display it
+  breadcrumb: true
+  copy_code: true              # "copy" button on code blocks
+  readtime: true               # reading time on posts
+  social: []                   # list of {name, url, icon} displayed in the footer
+  footer:
+    columns: []                # list of {title, links: [{name, url}]}
+    text: ''                   # free text (Markdown) under the logo
+    powered_by: true
+  bootstrap:
+    version: 6.0.0-alpha.1

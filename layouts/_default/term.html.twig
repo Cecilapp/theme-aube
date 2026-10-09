@@ -1,0 +1,6 @@
+{% extends ['list.html.twig', '_default/list.html.twig'] %}
+
+{%- block content ~%}
+        {{- parent() ~}}
+        <p class="mt-7"><a class="text-decoration-none" href="{{ url(page.plural, {language: site.language}) }}">{{ include('partials/icon.html.twig', {name: 'arrow-left', class: 'me-1'}, with_context = false) }}{% trans %}All{% endtrans %} {{ page.plural|trans|lower }}</a></p>
+{%- endblock content ~%}

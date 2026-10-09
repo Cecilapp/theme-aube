@@ -1,0 +1,14 @@
+{#- params: page, site, vocabulary (optional) ~#}
+{%- set vocabs = [] -%}
+{%- if site.taxonomies -%}
+{%- set vocabs = site.taxonomies|filter(v => v.id == vocabulary|default or vocabulary|default is empty) -%}
+{%- endif -%}
+{%- for vocab in vocabs ~%}
+{%- if page[vocab.id] is defined and page[vocab.id] is not empty ~%}
+<nav class="terms d-flex flex-wrap gap-3 mt-7" aria-label="{{ vocab.id|capitalize }}">
+  {%- for term in page[vocab.id] ~%}
+  <a class="badge rounded-pill bg-1 fg-body border fw-normal" href="{{ url(vocab.id ~ '/' ~ term|slugify, {language: site.language}) }}">{{ include('partials/icon.html.twig', {name: 'tag-fill', class: 'fg-primary'}, with_context = false) }}{{ term }}</a>
+  {%- endfor ~%}
+</nav>
+{%- endif ~%}
+{%- endfor ~%}

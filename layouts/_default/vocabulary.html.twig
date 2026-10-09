@@ -1,0 +1,10 @@
+{% extends ['page.html.twig', '_default/page.html.twig'] %}
+
+{%- block content ~%}
+            {{- include('partials/page-header.html.twig') ~}}
+            <div class="d-flex flex-wrap gap-3">
+              {%- for term in page.terms ~%}
+              <a class="btn-outline theme-secondary btn-sm rounded-pill" href="{{ url(term.id, {language: site.language}) }}">{{ term.name }} <span class="badge theme-secondary">{{ term|length }}</span></a>
+              {%- endfor ~%}
+            </div>
+{%- endblock content ~%}

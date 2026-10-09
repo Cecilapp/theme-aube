@@ -1,0 +1,5 @@
+{#- params: name (Bootstrap Icons name, see assets/icons/), class ~#}
+{%- set svg = asset('icons/' ~ name ~ '.svg', {ignore_missing: true}) -%}
+{%- if not svg.missing -%}
+{{ svg|inline|replace({'<svg ': '<svg aria-hidden="true" focusable="false" ', 'class="bi ': 'class="' ~ class|default('') ~ ' bi '})|raw }}
+{%- endif -%}

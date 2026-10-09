@@ -1,0 +1,36 @@
+{% set pages = site.pages.showable %}
+{% if page.pages is defined %}
+  {%- set pages = page.pages -%}
+{% endif %}
+{% if page.paginator.pages is defined %}
+  {%- set pages = page.paginator.pages -%}
+{% endif %}
+{% extends ['page.html.twig', '_default/page.html.twig'] %}
+
+{%- block main ~%}
+      <div class="container py-7 lg:py-12">
+        {%- block breadcrumb ~%}
+        {%- if site.aube.breadcrumb|default(true) ~%}
+        {{- include('partials/breadcrumb.html.twig') ~}}
+        {%- endif ~%}
+        {%- endblock breadcrumb ~%}
+        {%- block content ~%}
+        {{- include('partials/page-header.html.twig') ~}}
+        {%- if page.content ~%}
+        <div class="content mb-12">
+          {{- page.content ~}}
+        </div>
+        {%- endif ~%}
+        <div class="row g-7 row-cols-1 md:row-cols-2 lg:row-cols-3">
+          {%- for post in pages ~%}
+          <div class="col">
+            {{- include('partials/card.html.twig', {post, site}, with_context = false) ~}}
+          </div>
+          {%- else ~%}
+          <p class="fg-secondary">{% trans %}No content yet.{% endtrans %}</p>
+          {%- endfor ~%}
+        </div>
+        {{- include('partials/paginator.html.twig', {page}, with_context = false) ~}}
+        {%- endblock content ~%}
+      </div>
+{%- endblock main ~%}

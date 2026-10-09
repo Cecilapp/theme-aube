@@ -1,0 +1,52 @@
+{% extends ['page.html.twig', '_default/page.html.twig'] %}
+
+{%- block main ~%}
+      {%- set toc = site.aube.toc.enabled|default(true) and page.toc|default(true) ? page.body|toc : '' ~%}
+      {%- set has_toc = toc is not empty and toc|split('<li')|length > site.aube.toc.min|default(2) ~%}
+      {#- previous/next pages, by weight, in the docs section ~#}
+      {%- set section = page.type == 'section' ? page : site.page(page.section) ~%}
+      {%- set docs = section.pages|default([])|sort_by_weight ~%}
+      {%- set sequence = [section] ~%}
+      {%- for doc in docs %}{% set sequence = sequence|merge([doc]) %}{% endfor ~%}
+      {%- set prev = null ~%}{%- set next = null ~%}
+      {%- for doc in sequence ~%}
+        {%- if doc.id == page.id ~%}
+          {%- set prev = loop.first ? null : sequence[loop.index0 - 1] ~%}
+          {%- set next = loop.last ? null : sequence[loop.index0 + 1] ~%}
+        {%- endif ~%}
+      {%- endfor ~%}
+      <div class="container py-7 lg:py-12">
+        <div class="row g-7 lg:g-12">
+          <aside class="lg:col-3 xl:col-2">
+            <button class="btn-outline theme-secondary btn-sm lg:d-none mb-5" type="button" data-bs-toggle="collapse" data-bs-target="#docs-nav" aria-expanded="false" aria-controls="docs-nav">{{ include('partials/icon.html.twig', {name: 'list', class: 'me-1'}, with_context = false) }}{% trans %}Menu{% endtrans %}</button>
+            <div class="collapse lg:d-block" id="docs-nav">
+              {{- include('partials/docs-sidebar.html.twig', {page, site}, with_context = false) ~}}
+            </div>
+          </aside>
+          <div class="{{ has_toc ? 'lg:col-9 xl:col-8' : 'lg:col-9 xl:col-10' }}">
+            {%- if site.aube.breadcrumb|default(true) ~%}
+            {{- include('partials/breadcrumb.html.twig') ~}}
+            {%- endif ~%}
+            <article>
+              {{- include('partials/page-header.html.twig') ~}}
+              {%- if has_toc ~%}
+              <details class="xl:d-none mb-7 border rounded-4 p-5">
+                <summary class="fw-semibold">{% trans %}On this page{% endtrans %}</summary>
+                <nav class="toc mt-3">{{ toc }}</nav>
+              </details>
+              {%- endif ~%}
+              <div class="content">
+                {{- page.content ~}}
+              </div>
+              {%- block docs_children ~%}{%- endblock docs_children ~%}
+            </article>
+            {{- include('partials/prev-next.html.twig', {prev, next}, with_context = false) ~}}
+          </div>
+          {%- if has_toc ~%}
+          <aside class="xl:col-2 d-none xl:d-block">
+            {{- include('partials/toc.html.twig', {toc}, with_context = false) ~}}
+          </aside>
+          {%- endif ~%}
+        </div>
+      </div>
+{%- endblock main ~%}

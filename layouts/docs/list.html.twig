@@ -1,0 +1,18 @@
+{% extends 'docs/page.html.twig' %}
+
+{%- block docs_children ~%}
+              <div class="row g-7 row-cols-1 md:row-cols-2 mt-3">
+                {%- for doc in page.pages|default([])|sort_by_weight ~%}
+                <div class="col">
+                  <div class="card card-hover h-100 shadow-sm">
+                    <div class="card-body">
+                      <h2 class="h5 card-title"><a class="stretched-link fg-body text-decoration-none" href="{{ url(doc) }}">{{ doc.title }}</a></h2>
+                      {%- if doc.description|default ~%}
+                      <p class="card-text fg-secondary mb-0">{{ doc.description }}</p>
+                      {%- endif ~%}
+                    </div>
+                  </div>
+                </div>
+                {%- endfor ~%}
+              </div>
+{%- endblock docs_children ~%}
