@@ -8,7 +8,10 @@
     "cecil/theme-installer": "^1.4||^2.0"
   },
   "extra": {
-    "name": "aube"
+    "name": "aube",
+    "branch-alias": {
+      "dev-main": "1.x-dev"
+    }
   },
   "minimum-stability": "dev",
   "prefer-stable": true,

@@ -7,7 +7,7 @@
   {%- if page.type == 'page' and page.date and page.section in site.aube.posts.sections|default(['blog']) ~%}
   <p class="small fg-secondary d-flex flex-wrap gap-5 mb-0">
     <span>{{ include('partials/icon.html.twig', {name: 'calendar3', class: 'me-1'}, with_context = false) }}<time datetime="{{ page.date|date('c') }}">{{ page.date|format_date('long') }}</time></span>
-    {%- if site.aube.readtime|default(true) ~%}
+    {%- if site.aube.readtime ?? true ~%}
     {%- set minutes = readtime(page.content) ~%}
     <span>{{ include('partials/icon.html.twig', {name: 'clock', class: 'me-1'}, with_context = false) }}{% trans with {'%minutes%': minutes} %}%minutes% min read{% endtrans %}</span>
     {%- endif ~%}

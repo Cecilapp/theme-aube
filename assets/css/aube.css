@@ -65,7 +65,7 @@
     max-height: 18rem;
   }
   .text-gradient {
-    background: linear-gradient(90deg, var(--bs-primary-base), #ff8a3d);
+    background: linear-gradient(90deg, var(--bs-primary-base), color-mix(in oklch, var(--bs-primary-base) 65%, #fff));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -147,6 +147,12 @@
   .content pre:hover .btn-copy,
   .btn-copy:focus {
     opacity: 1;
+  }
+  /* no hover on touch screens: always visible */
+  @media (hover: none) {
+    .btn-copy {
+      opacity: 1;
+    }
   }
   .btn-copy .icon-copied,
   .btn-copy.copied .icon-copy {
@@ -287,6 +293,26 @@
   [data-bs-theme="dark"] .color-mode-icon-light {
     display: none;
   }
+}
+
+/* FlexSearch component theme (optional): colors from Bootstrap tokens, so the search box follows the color mode */
+/* unlayered, to override the defaults of the (unlayered) flexsearch.css */
+:root[data-bs-theme] {
+  --flexsearch-color: var(--bs-fg-body);
+  --flexsearch-bg: var(--bs-bg-body);
+  --flexsearch-heading-color: var(--bs-fg-body);
+  --flexsearch-muted: var(--bs-fg-3);
+  --flexsearch-subtle: var(--bs-fg-4);
+  --flexsearch-border: var(--bs-border-color);
+  --flexsearch-divider: var(--bs-border-color-translucent);
+  --flexsearch-surface: var(--bs-bg-2);
+  --flexsearch-surface-color: var(--bs-fg-2);
+  --flexsearch-surface-border: var(--bs-border-color);
+  --flexsearch-accent: var(--bs-primary-base);
+  --flexsearch-mark-color: var(--bs-primary-fg);
+  --flexsearch-selected-bg: color-mix(in oklch, var(--bs-primary-base) 12%, transparent);
+  --flexsearch-selected-color: var(--bs-primary-fg);
+  --flexsearch-radius: var(--bs-radius-5);
 }
 
 /* Docs navigation: always visible on large screens (overrides Bootstrap's unlayered ".collapse:not(.show)") */

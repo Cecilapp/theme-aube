@@ -7,7 +7,17 @@ author:
   url: 'https://cecil.app'
 image: icon.png
 theme:
+  - flexsearch
   - aube
+flexsearch:
+  sections:
+    docs:
+      limit: 5
+    blog:
+      title: Posts
+      limit: 3
+      split: false
+      date: true
 menus:
   main:
     - id: docs
@@ -31,8 +41,8 @@ aube:
     - name: Mastodon
       url: https://framapiaf.org/@cecil
       icon: mastodon
-    - name: RSS
-      url: /blog/rss.xml
+    - name: Atom feed
+      url: blog/atom.xml
       icon: rss-fill
   footer:
     text: 'Code released under the MIT license.'

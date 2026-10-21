@@ -61,8 +61,8 @@
         </div>
       </section>
       {%- endif ~%}
-      {%- set section = site.aube.home.section|default('blog') ~%}
-      {%- set posts = site.pages.showable|filter_by('section', section)|sort_by_date|slice(0, site.aube.home.limit|default(3)) ~%}
+      {%- set section = site.aube.home.section ?? 'blog' ~%}
+      {%- set posts = site.pages.showable|filter_by('section', section)|sort_by_date|slice(0, site.aube.home.limit ?? 3) ~%}
       {%- if section and posts|length > 0 ~%}
       <section class="py-12">
         <div class="container">

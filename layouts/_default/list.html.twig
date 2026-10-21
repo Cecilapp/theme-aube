@@ -10,7 +10,7 @@
 {%- block main ~%}
       <div class="container py-7 lg:py-12">
         {%- block breadcrumb ~%}
-        {%- if site.aube.breadcrumb|default(true) ~%}
+        {%- if site.aube.breadcrumb ?? true ~%}
         {{- include('partials/breadcrumb.html.twig') ~}}
         {%- endif ~%}
         {%- endblock breadcrumb ~%}
@@ -24,7 +24,7 @@
         <div class="row g-7 row-cols-1 md:row-cols-2 lg:row-cols-3">
           {%- for post in pages ~%}
           <div class="col">
-            {{- include('partials/card.html.twig', {post, site}, with_context = false) ~}}
+            {{- include('partials/card.html.twig', {post, site, heading: 'h2'}, with_context = false) ~}}
           </div>
           {%- else ~%}
           <p class="fg-secondary">{% trans %}No content yet.{% endtrans %}</p>
