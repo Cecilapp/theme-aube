@@ -4,7 +4,7 @@
       {%- set hero = page.hero|default({}) ~%}
       <section class="hero">
         <div class="container">
-          <div class="row align-items-center g-12">
+          <div class="row align-items-center g-7 lg:g-12">
             <div class="{{ hero.image|default ? 'lg:col-7' : 'lg:col-9 mx-auto text-center' }}">
               <h1 class="hero-title fs-5xl mb-5">{{ hero.title|default(site.title)|raw }}</h1>
               <p class="fs-lg fw-light fg-secondary mb-7">{{ hero.text|default(site.description|default(site.baseline|default(''))) }}</p>

@@ -42,7 +42,7 @@
       <span>&copy; {{ 'now'|date('Y') }} {{ site.author.name|default(site.title) }}</span>
       {%- if aube.footer.powered_by ?? true ~%}
       {%- set powered_by -%}
-      <a href="https://cecil.app">Cecil</a>
+      <a href="{{ cecil.url }}">Cecil</a>
       {%- endset ~%}
       <span>{% trans %}Powered by %powered_by%{% endtrans %}</span>
       {%- endif ~%}
