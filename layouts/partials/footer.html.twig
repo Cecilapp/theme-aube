@@ -5,8 +5,9 @@
     <div class="row g-7">
       <div class="lg:col-4">
         <a class="d-inline-flex align-items-center gap-3 mb-5 fw-bold fs-lg fg-body" href="{{ url(site.home) }}">
-          {%- set logo = asset(aube.logo|default('images/logo.svg'), {ignore_missing: true}) ~%}
-          {%- if aube.logo|default('images/logo.svg') is not empty and not logo.missing ~%}
+          {%- set logo_path = aube.logo ?? 'images/logo.svg' ~%}
+          {%- set logo = logo_path is not empty ? asset(logo_path, {ignore_missing: true}) : null ~%}
+          {%- if logo and not logo.missing ~%}
           <img src="{{ url(logo) }}" alt="" width="32" height="32">
           {%- endif ~%}
           <span>{{ site.title }}</span>
@@ -20,7 +21,7 @@
         {%- if aube.social|default([]) is not empty ~%}
         <ul class="list-inline mt-5 mb-0 fs-lg">
           {%- for link in aube.social ~%}
-          <li class="list-inline-item"><a href="{{ link.url }}" title="{{ link.name }}" rel="noopener">{{ include('partials/icon.html.twig', {name: link.icon|default(link.name|lower)}, with_context = false) }}<span class="visually-hidden">{{ link.name }}</span></a></li>
+          <li class="list-inline-item"><a href="{{ url(link.url) }}" title="{{ link.name }}" rel="noopener">{{ include('partials/icon.html.twig', {name: link.icon|default(link.name|lower)}, with_context = false) }}<span class="visually-hidden">{{ link.name }}</span></a></li>
           {%- endfor ~%}
         </ul>
         {%- endif ~%}
@@ -39,7 +40,7 @@
     <hr class="my-7">
     <div class="d-flex flex-column sm:flex-row justify-content-between small fg-secondary gap-3">
       <span>&copy; {{ 'now'|date('Y') }} {{ site.author.name|default(site.title) }}</span>
-      {%- if aube.footer.powered_by|default(true) ~%}
+      {%- if aube.footer.powered_by ?? true ~%}
       {%- set powered_by -%}
       <a href="https://cecil.app">Cecil</a>
       {%- endset ~%}

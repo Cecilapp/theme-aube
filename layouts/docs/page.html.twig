@@ -1,8 +1,8 @@
 {% extends ['page.html.twig', '_default/page.html.twig'] %}
 
 {%- block main ~%}
-      {%- set toc = site.aube.toc.enabled|default(true) and page.toc|default(true) ? page.body|toc : '' ~%}
-      {%- set has_toc = toc is not empty and toc|split('<li')|length > site.aube.toc.min|default(2) ~%}
+      {%- set toc = (site.aube.toc.enabled ?? true) and (page.toc ?? true) ? page.body|toc : '' ~%}
+      {%- set has_toc = toc is not empty and toc|split('<li')|length > (site.aube.toc.min ?? 2) ~%}
       {#- previous/next pages, by weight, in the docs section ~#}
       {%- set section = page.type == 'section' ? page : site.page(page.section) ~%}
       {%- set docs = section.pages|default([])|sort_by_weight ~%}
@@ -24,7 +24,7 @@
             </div>
           </aside>
           <div class="{{ has_toc ? 'lg:col-9 xl:col-8' : 'lg:col-9 xl:col-10' }}">
-            {%- if site.aube.breadcrumb|default(true) ~%}
+            {%- if site.aube.breadcrumb ?? true ~%}
             {{- include('partials/breadcrumb.html.twig') ~}}
             {%- endif ~%}
             <article>

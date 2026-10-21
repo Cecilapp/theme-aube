@@ -10,7 +10,7 @@
 {%- block main ~%}
       <div class="container py-7 lg:py-12">
         {%- block breadcrumb ~%}
-        {%- if site.aube.breadcrumb|default(true) ~%}
+        {%- if site.aube.breadcrumb ?? true ~%}
         {{- include('partials/breadcrumb.html.twig') ~}}
         {%- endif ~%}
         {%- endblock breadcrumb ~%}

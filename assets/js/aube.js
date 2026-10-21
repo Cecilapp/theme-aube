@@ -3,7 +3,12 @@
   'use strict';
 
   // Color mode: light, dark or auto
-  const preferredMode = () => localStorage.getItem('theme') || document.documentElement.dataset.defaultTheme || 'auto';
+  // storage can be unavailable (blocked cookies, sandboxed iframe): fall back to the default mode
+  const storage = {
+    get: () => { try { return localStorage.getItem('theme'); } catch (e) { return null; } },
+    set: (mode) => { try { localStorage.setItem('theme', mode); } catch (e) { /* not persisted */ } },
+  };
+  const preferredMode = () => storage.get() || document.documentElement.dataset.defaultTheme || 'auto';
   const applyMode = (mode) => {
     const dark = mode === 'dark' || (mode === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
     document.documentElement.setAttribute('data-bs-theme', dark ? 'dark' : 'light');
@@ -60,7 +65,7 @@
     document.querySelectorAll('[data-bs-theme-value]').forEach((toggle) => {
       toggle.addEventListener('click', () => {
         const mode = toggle.getAttribute('data-bs-theme-value');
-        localStorage.setItem('theme', mode);
+        storage.set(mode);
         applyMode(mode);
         showActiveMode(mode);
       });

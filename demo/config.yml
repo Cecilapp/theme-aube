@@ -31,8 +31,8 @@ aube:
     - name: Mastodon
       url: https://framapiaf.org/@cecil
       icon: mastodon
-    - name: RSS
-      url: /blog/rss.xml
+    - name: Atom feed
+      url: blog/atom.xml
       icon: rss-fill
   footer:
     text: 'Code released under the MIT license.'

@@ -148,6 +148,12 @@
   .btn-copy:focus {
     opacity: 1;
   }
+  /* no hover on touch screens: always visible */
+  @media (hover: none) {
+    .btn-copy {
+      opacity: 1;
+    }
+  }
   .btn-copy .icon-copied,
   .btn-copy.copied .icon-copy {
     display: none;
