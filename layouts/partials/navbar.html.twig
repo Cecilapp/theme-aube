@@ -1,6 +1,6 @@
 {%- set aube = site.aube|default({}) -%}
-<header class="site-header contains-inline border-bottom {{ (aube.navbar.fixed ?? true) ? 'sticky-top' }}">
-  <nav class="navbar lg:navbar-expand" aria-label="{% trans %}Main navigation{% endtrans %}">
+<header class="site-header border-bottom {{ (aube.navbar.fixed ?? true) ? 'sticky-top' }}">
+  <nav class="navbar" aria-label="{% trans %}Main navigation{% endtrans %}">
     <div class="container">
       <a class="navbar-brand d-flex align-items-center gap-3 fw-bold" href="{{ url(site.home) }}">
         {%- set logo_path = aube.logo ?? 'images/logo.svg' ~%}

@@ -71,7 +71,7 @@
       {%- set toc = (aube.toc.enabled ?? true) and (page.toc ?? true) ? page.body|toc : '' ~%}
       {%- set has_toc = toc is not empty and toc|split('<li')|length > (aube.toc.min ?? 2) ~%}
       <div class="container py-7 lg:py-12">
-        <div class="row g-12 justify-content-center">
+        <div class="row g-7 lg:g-12 justify-content-center">
           <div class="{{ has_toc ? 'lg:col-9 xl:col-8' : 'lg:col-10 xl:col-8' }}">
             {%- block breadcrumb ~%}
             {%- if aube.breadcrumb ?? true ~%}

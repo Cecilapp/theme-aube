@@ -47,6 +47,52 @@
     height: 2rem;
     width: auto;
   }
+  /* expanded navbar from the "lg" breakpoint of the viewport, like the grid and the utilities: Bootstrap's "lg:navbar-expand" */
+  /* is a container query, which doesn't match at 1024px when a classic scrollbar makes the header narrower than the viewport */
+  @media (width >= 1024px) {
+    .site-header .navbar > .container {
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+    }
+    .site-header .navbar-nav {
+      --bs-nav-link-padding-x: var(--bs-navbar-nav-link-padding-x);
+      flex-direction: row;
+    }
+    .site-header .navbar-toggler {
+      display: none !important;
+    }
+    .site-header .navbar [class*="drawer"] {
+      z-index: auto;
+      box-shadow: none;
+      flex-grow: 1;
+      margin: 0;
+      padding: 0;
+      transition: none;
+      visibility: visible !important;
+      background-color: transparent !important;
+      border: 0 !important;
+      width: auto !important;
+      max-width: none !important;
+      height: auto !important;
+      max-height: none !important;
+      display: flex !important;
+      position: static !important;
+      inset: auto !important;
+      overflow: visible !important;
+      transform: none !important;
+    }
+    .site-header .navbar [class*="drawer"] .drawer-header {
+      display: none !important;
+    }
+    .site-header .navbar [class*="drawer"] .drawer-body {
+      flex-direction: row;
+      flex-grow: 1;
+      align-items: center;
+      padding: 0;
+      display: flex;
+      overflow-y: visible;
+    }
+  }
 
   /* Hero */
   .hero {
