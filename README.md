@@ -14,6 +14,7 @@ The _Aube_ theme for [Cecil](https://cecil.app) is a clean documentation and blo
 - Documentation: sidebar navigation (grouped), sticky table of contents with scroll spy, previous/next links
 - Breadcrumb, "copy" button on code blocks, Cecil notes (`:::tip`) styled as alerts
 - Footer with link columns and social icons ([Bootstrap Icons](https://icons.getbootstrap.com))
+- Optional search box, with the [FlexSearch](https://github.com/Cecilapp/theme-flexsearch) component theme
 - Accessible: skip link, ARIA labels, responsive drawer menu
 - Translatable (English and French included)
 
@@ -91,6 +92,22 @@ menus:
       weight: 10
 ```
 
+### Search
+
+The theme is ready for the [FlexSearch](https://github.com/Cecilapp/theme-flexsearch) component theme: once installed, its search box is displayed in the navbar, styled with the theme colors and color mode.
+
+```bash
+composer require cecil/theme-flexsearch
+```
+
+```yaml
+theme:
+  - flexsearch
+  - aube
+```
+
+See the [FlexSearch theme documentation](https://github.com/Cecilapp/theme-flexsearch#configuration) for its options (indexed sections, hotkey, etc.).
+
 ### Icons
 
 Icons are SVG files from [Bootstrap Icons](https://icons.getbootstrap.com) stored in `assets/icons/`. Add your own by dropping a SVG file in your site's `assets/icons/` folder, then use it in templates:
@@ -161,7 +178,7 @@ The theme also sets the following Cecil options (your configuration always wins)
 
 ### Layout blocks
 
-`_default/page.html.twig` defines the following blocks you can override: `head`, `head_metatags`, `head_css`, `body_class`, `header`, `main`, `breadcrumb`, `content`, `footer` and `scripts`.
+`_default/page.html.twig` defines the following blocks you can override: `head`, `head_metatags`, `head_css`, `body_class`, `header`, `main`, `breadcrumb`, `content`, `footer` and `scripts`. `docs/page.html.twig` also defines `breadcrumb` and `content`, plus `docs_children`.
 
 ## Internationalization
 

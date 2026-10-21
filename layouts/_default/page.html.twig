@@ -30,6 +30,11 @@
     {%- set bs_version = aube.bootstrap.version|default('6.0.0-alpha.1') ~%}
     {{ html(asset('https://cdn.jsdelivr.net/npm/bootstrap@' ~ bs_version ~ '/dist/css/bootstrap.min.css', {filename: 'css/bootstrap.min.css', minify: false}), {}, {preload: true}) }}
     {{ html(asset('css/aube.css')) }}
+    {#- optional component theme: flexsearch ~#}
+    {%- set flexsearch_css = asset('flexsearch/flexsearch.css', {ignore_missing: true}) ~%}
+    {%- if not flexsearch_css.missing and (site.flexsearch.enabled ?? true) ~%}
+    {{ html(flexsearch_css) }}
+    {%- endif ~%}
     {#- theme colors: Bootstrap 6 color role tokens (base, fg, bg, border, etc.) derived from a single color ~#}
     {%- set colors = {primary: aube.colors.primary|default('#d43900'), secondary: aube.colors.secondary|default('')}|filter(c => c is not empty) ~%}
     <style>{% apply minify_css %}
@@ -101,6 +106,7 @@
     {%- block footer ~%}
     {{- include('partials/footer.html.twig') ~}}
     {%- endblock footer ~%}
+    {{- include('partials/flexsearch/dialog.html.twig', ignore_missing = true) ~}}
     {%- block scripts ~%}
     {%- if aube.copy_code ?? true ~%}
     <template id="copy-button-template">

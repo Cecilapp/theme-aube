@@ -10,6 +10,11 @@
         {%- endif ~%}
         <span>{{ site.title }}</span>
       </a>
+      {#- search box, if the "flexsearch" component theme is installed: next to the toggler on small screens, at the end on large screens ~#}
+      {%- set search = include('partials/flexsearch/trigger.html.twig', ignore_missing = true) ~%}
+      {%- if search|trim is not empty ~%}
+      <div class="navbar-search ms-auto lg:ms-3 lg:order-last">{{ search }}</div>
+      {%- endif ~%}
       <button class="btn-icon navbar-toggler" type="button" data-bs-toggle="drawer" data-bs-target="#navbar-drawer" aria-controls="navbar-drawer" aria-label="{% trans %}Toggle navigation{% endtrans %}">
         {{ include('partials/icon.html.twig', {name: 'list', class: 'fs-xl'}, with_context = false) }}
       </button>
@@ -31,7 +36,7 @@
           <ul class="navbar-nav flex-row align-items-center gap-1">
             {%- for link in aube.social|default([])|filter(l => l.navbar|default(false)) ~%}
             <li class="nav-item">
-              <a class="nav-link px-3" href="{{ url(link.url) }}" title="{{ link.name }}" rel="noopener">{{ include('partials/icon.html.twig', {name: link.icon|default(link.name|lower)}, with_context = false) }}<span class="visually-hidden">{{ link.name }}</span></a>
+              <a class="nav-link px-3" href="{{ url(link.url) }}" title="{{ link.name }}" rel="me noopener">{{ include('partials/icon.html.twig', {name: link.icon|default(link.name|lower)}, with_context = false) }}<span class="visually-hidden">{{ link.name }}</span></a>
             </li>
             {%- endfor ~%}
             {%- if aube.color_mode.enabled ?? true ~%}

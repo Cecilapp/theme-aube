@@ -24,9 +24,12 @@
             </div>
           </aside>
           <div class="{{ has_toc ? 'lg:col-9 xl:col-8' : 'lg:col-9 xl:col-10' }}">
+            {%- block breadcrumb ~%}
             {%- if site.aube.breadcrumb ?? true ~%}
             {{- include('partials/breadcrumb.html.twig') ~}}
             {%- endif ~%}
+            {%- endblock breadcrumb ~%}
+            {%- block content ~%}
             <article>
               {{- include('partials/page-header.html.twig') ~}}
               {%- if has_toc ~%}
@@ -40,6 +43,7 @@
               </div>
               {%- block docs_children ~%}{%- endblock docs_children ~%}
             </article>
+            {%- endblock content ~%}
             {{- include('partials/prev-next.html.twig', {prev, next}, with_context = false) ~}}
           </div>
           {%- if has_toc ~%}
