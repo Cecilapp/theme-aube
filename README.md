@@ -2,7 +2,10 @@
 
 The _Aube_ theme for [Cecil](https://cecil.app) is a clean documentation and blog theme built on [Bootstrap 6](https://getbootstrap.com).
 
-![Demo screenshot](docs/screenshot.png)
+<p align="center">
+  <img src="docs/screenshot.png" alt="Demo screenshot (light mode)" width="49%">
+  <img src="docs/screenshot-dark.png" alt="Demo screenshot (dark mode)" width="49%">
+</p>
 
 ## Features
 
