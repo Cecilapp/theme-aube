@@ -193,7 +193,7 @@ php cecil.phar util:translations:extract --locale=<locale> --save --theme=aube
 ### Demo site
 
 ```bash
-composer demo:link   # links the theme as `demo/themes/aube`
+composer demo:link   # links the theme as `demo/themes/aube` and installs FlexSearch (once)
 cecil serve demo
 ```
 

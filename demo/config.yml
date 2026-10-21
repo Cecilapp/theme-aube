@@ -7,7 +7,17 @@ author:
   url: 'https://cecil.app'
 image: icon.png
 theme:
+  - flexsearch
   - aube
+flexsearch:
+  sections:
+    docs:
+      limit: 5
+    blog:
+      title: Posts
+      limit: 3
+      split: false
+      date: true
 menus:
   main:
     - id: docs
